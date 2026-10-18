@@ -1,11 +1,11 @@
-import React from 'react'
+import { HeroSection } from "@/components/landing-page/hero-section"
+import { FeaturedProducts } from "@/components/landing-page/featured-products"
 
-const page = () => {
+export default function Home() {
   return (
     <div>
-      <h1>Hello Next js</h1>
+      <HeroSection />
+      <FeaturedProducts />
     </div>
   )
 }
-
-export default page
