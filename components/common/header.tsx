@@ -6,7 +6,8 @@ import {
     SparklesIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { buttonVariants, Button } from "@/components/ui/button";
+import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 
 const Logo = () => {
     return (
@@ -43,6 +44,22 @@ export default function Header() {
                             <span>Explore</span>
                         </Link>
                     </nav>
+
+                    <div className="flex items-center gap-3">
+                        <Show when="signed-out">
+                            <SignInButton />
+                            <SignUpButton>
+                                <Button>Sign Up</Button>
+                            </SignUpButton>
+                        </Show>
+                        <Show when="signed-in">
+                            <Link href="/submit" className={buttonVariants({ variant: "default" })}>
+                                <SparklesIcon className="size-4 mr-2" />
+                                Submit Project
+                            </Link>
+                            <UserButton />
+                        </Show>
+                    </div>
                 </div>
             </div>
         </header>
