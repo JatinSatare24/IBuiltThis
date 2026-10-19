@@ -1,29 +1,16 @@
+'use cache'
+
 import { StarIcon, ArrowUpRightIcon } from "lucide-react";
 import SectionHeader from "@/components/common/section-header";
 import { Button, buttonVariants } from "@/components/ui/button"
 import Link from "next/link";
 import ProductCard from "@/components/products/product-card";
+import { getFeaturedProducts } from "@/lib/products/product-select";
 
-const featuredProducts = [
-    {
-        id: 1,
-        name: 'blah1',
-        description: 'blah 1 description',
-        tags: ['a', 'b', 'c'],
-        votes: 24,
-        isFeatured: true
-    },
-    {
-        id: 2,
-        name: 'blah2',
-        description: 'blah 2 description',
-        tags: ['a', 'z', 'c'],
-        votes: 48,
-        isFeatured: false
-    }
-]
 
-export function FeaturedProducts() {
+export async function FeaturedProducts() {
+
+    const featuredProducts = await getFeaturedProducts()
 
     return (
         <section className="py-20 bg-muted/20">
