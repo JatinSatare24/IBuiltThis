@@ -4,15 +4,10 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ChevronUpIcon, ChevronDownIcon, StarIcon } from "lucide-react"
 import { cn } from "cn"
+import { InferSelectModel } from "drizzle-orm"
+import { products } from "@/db/schema"
 
-interface Product {
-    id: number,
-    name: string,
-    description: string,
-    tags: string[],
-    votes: number,
-    isFeatured: boolean
-}
+type Product = InferSelectModel<typeof products>
 
 export default function ProductCard({ product }: { product: Product }) {
 
@@ -26,7 +21,7 @@ export default function ProductCard({ product }: { product: Product }) {
                         <div className="flex-1 min-w-0 ">
                             <div className="flex items-center gap-2">
                                 <CardTitle className="text-lg group-hover:text-primary transition-colors">{product.name}</CardTitle>
-                                {product.isFeatured &&
+                                {product.voteCount > 100 &&
                                     <Badge className="gap-1 bg-primary text-primary-foreground">
                                         <StarIcon className='size-3 fill-current' /> Featured
                                     </Badge>}
@@ -45,7 +40,9 @@ export default function ProductCard({ product }: { product: Product }) {
                             >
                                 <ChevronUpIcon className="size-5" />
                             </Button>
-                            <span className="text-sm font-semibold transition-colors text-foreground">10</span>
+                            <span className="text-sm font-semibold transition-colors text-foreground">
+                                {product.voteCount}
+                            </span>
                             <Button
                                 variant='ghost' size='icon-sm'
                                 className={cn(
@@ -61,7 +58,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 </CardHeader>
                 <CardFooter>
                     <div className="flex items-center gap-2">
-                        {product.tags.map((tag) =>
+                        {product.tags?.map((tag) =>
                             (<Badge variant='secondary' key={tag}>{tag}</Badge>))}
                     </div>
                 </CardFooter>
