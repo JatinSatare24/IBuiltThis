@@ -8,6 +8,7 @@ import {
 import Link from "next/link";
 import { buttonVariants, Button } from "@/components/ui/button";
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import { Suspense } from "react";
 
 const Logo = () => {
     return (
@@ -46,22 +47,30 @@ export default function Header() {
                     </nav>
 
                     <div className="flex items-center gap-3">
-                        <Show when="signed-out">
-                            <SignInButton />
-                            <SignUpButton>
-                                <Button>Sign Up</Button>
-                            </SignUpButton>
-                        </Show>
-                        <Show when="signed-in">
-                            <Link href="/submit" className={buttonVariants({ variant: "default" })}>
-                                <SparklesIcon className="size-4 mr-2" />
-                                Submit Project
-                            </Link>
-                            <UserButton />
-                        </Show>
+                        <Suspense
+                            fallback={
+                                <div>
+                                    <LoaderIcon className="size-4 animate-spin" />
+                                </div>
+                            }
+                        >
+                            <Show when="signed-out">
+                                <SignInButton />
+                                <SignUpButton>
+                                    <Button>Sign Up</Button>
+                                </SignUpButton>
+                            </Show>
+                            <Show when="signed-in">
+                                <Link href="/submit" className={buttonVariants({ variant: "default" })}>
+                                    <SparklesIcon className="size-4 mr-2" />
+                                    Submit Project
+                                </Link>
+                                <UserButton />
+                            </Show>
+                        </Suspense>
                     </div>
                 </div>
             </div>
-        </header>
+        </header >
     )
 }
